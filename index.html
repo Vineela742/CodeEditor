@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Code Editor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('html-tab')"><i class="fa-brands fa-html5"></i> HTML</button>
+                <button class="tab-button" onclick="switchTab('css-tab')"><i class="fa-regular fa-file-code"></i> CSS</button>
+                <button class="tab-button" onclick="switchTab('js-tab')"><i class="fa-brands fa-js"></i> JavaScript</button>
+            </div>
+            
+            <!-- Tab Content -->
+            <div id="html-tab" class="tab-content active">
+                <textarea id="html-code"></textarea>
+            </div>
+            <div id="css-tab" class="tab-content">
+                <textarea id="css-code"></textarea>
+            </div>
+            <div id="js-tab" class="tab-content">
+                <textarea id="js-code"></textarea>
+            </div>
+        </div>
+        <div class="right">
+            <button class="run-button" onclick="run()"><i class="fa-solid fa-play"></i> Run Output</button>
+            <iframe id="output"></iframe>
+        </div>
+    </div>
+    <script>
+        function run() {
+            let htmlcode = document.getElementById("html-code").value;
+            let csscode = document.getElementById("css-code").value;
+            let jscode = document.getElementById("js-code").value;
+            let output = document.getElementById("output");
+            output.contentDocument.body.innerHTML = htmlcode + "<style>" + csscode + "</style>";
+            output.contentWindow.eval(jscode);
+        }
+
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[onclick="switchTab('${tabId}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
